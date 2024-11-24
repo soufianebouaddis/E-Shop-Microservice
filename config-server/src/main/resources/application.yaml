@@ -1,0 +1,30 @@
+server:
+  port: 8380
+
+spring:
+  profiles:
+    active: jdbc
+  application:
+    name: config-server
+  datasource:
+    url: jdbc:mysql://localhost:3306/config_db?createDatabaseIfNotExist=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 5000
+      maximum-pool-size: 10
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  cloud:
+    config:
+      server:
+        jdbc:
+          sql: SELECT property_key, property_value FROM property_source WHERE application_name=? AND profile=? AND label=?
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}

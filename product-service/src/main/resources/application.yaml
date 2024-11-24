@@ -1,0 +1,41 @@
+server:
+  shutdown: graceful
+
+spring:
+  application:
+    name: PRODUCT-SERVICE
+  config:
+    import: optional:configserver:http://localhost:8380
+  cloud:
+    config:
+      uri: http://localhost:8380
+      fail-fast: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
+    lease-renewal-interval-in-seconds: 30
+    health-check-url-path: /actuator/health
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    registry-fetch-interval-seconds: 30
+    service-url:
+      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
+auth-service:
+  public_key_url : http://localhost:8180/api/v1/auth/public-key
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    com.e_shop.product_service.config: DEBUG
