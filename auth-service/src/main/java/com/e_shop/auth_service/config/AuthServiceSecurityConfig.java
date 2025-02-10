@@ -76,7 +76,7 @@ public class AuthServiceSecurityConfig {
                                 "/v3/api-docs/**").permitAll())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> logout
-                        .logoutUrl("/api/v1/users/logout")
+                        .logoutUrl("/api/v1/auth/logout")
                         .permitAll()
                         .logoutSuccessHandler((req, res, auth) -> {
                             String origin = req.getHeader("Origin");
